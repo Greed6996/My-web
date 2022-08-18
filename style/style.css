@@ -1,0 +1,41 @@
+body {
+    background-color: #8FD8D8;
+}
+
+hr {
+    border-color: coral;
+    border-style: none;
+    border-top-style: dotted;
+    width: 20%;
+    border-width: 5px;
+}
+
+.big {
+    border-color: rgb(36, 104, 206);
+    border-style: none;
+    border-top-style: dotted;
+    width: 30%;
+    border-width: 5px;
+}
+
+.line {
+    width: 30%;
+    border-color: forestgreen;
+}
+.myimg{
+    border-radius: 100%;
+}
+
+h3{
+    color: rgb(171, 12, 211);
+}
+#heading{
+    color: crimson;
+}
+.becon{
+    background-color: rgb(10, 184, 77);
+    border-radius: 20%;
+}
+img:hover{
+    background-color: rgb(177, 140, 19);
+}
