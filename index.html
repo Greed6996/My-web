@@ -1,102 +1,923 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Website</title>
-    <link rel="stylesheet" href="style/style.css">
-    <link rel="icon" href="favicon.ico">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Indian Culture & Traditions</title>
+  <meta name="description" content="A one-page responsive website showcasing India's culture, traditions, festivals, arts, food, heritage and a gallery with real images." />
 
+  <style>
+    :root{
+      --bg:#0b1020;
+      --card: rgba(255,255,255,.08);
+      --card2: rgba(255,255,255,.10);
+      --text:#eaf0ff;
+      --muted: rgba(234,240,255,.72);
+      --border: rgba(255,255,255,.14);
+      --shadow: 0 18px 45px rgba(0,0,0,.35);
+      --radius: 18px;
+      --radius2: 26px;
+      --max: 1120px;
+    }
+
+    *{ box-sizing:border-box; }
+    html{ scroll-behavior:smooth; }
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Helvetica Neue", sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(1200px 700px at 80% -10%, rgba(255, 110, 199, .28), transparent 60%),
+        radial-gradient(900px 600px at 10% 10%, rgba(72, 193, 255, .22), transparent 60%),
+        radial-gradient(900px 700px at 60% 110%, rgba(255, 214, 102, .18), transparent 60%),
+        linear-gradient(180deg, #050814 0%, var(--bg) 100%);
+      overflow-x:hidden;
+    }
+
+    a{ color: inherit; text-decoration:none; }
+    img{ max-width:100%; display:block; }
+
+    .container{ width:min(var(--max), calc(100% - 32px)); margin:0 auto; }
+
+    /* NAV */
+    .nav{
+      position:sticky; top:0; z-index:50;
+      backdrop-filter: blur(14px);
+      background: rgba(5, 8, 20, .55);
+      border-bottom: 1px solid rgba(255,255,255,.10);
+    }
+    .nav-inner{
+      display:flex; align-items:center; justify-content:space-between;
+      padding: 12px 0;
+      gap:12px;
+    }
+    .brand{
+      display:flex; align-items:center; gap:10px;
+      font-weight:900;
+      letter-spacing:.2px;
+      white-space:nowrap;
+    }
+    .brand-badge{
+      width:36px; height:36px; border-radius:12px;
+      background: conic-gradient(from 220deg, #ff4d9d, #ffb703, #4cc9f0, #8b5cf6, #ff4d9d);
+      box-shadow: 0 10px 25px rgba(255, 77, 157, .22);
+      border:1px solid rgba(255,255,255,.18);
+    }
+
+    .nav-links{
+      display:flex; gap:18px; align-items:center;
+      font-weight:700;
+      color: var(--muted);
+    }
+    .nav-links a{
+      padding:10px 10px;
+      border-radius: 999px;
+      transition: .18s ease;
+    }
+    .nav-links a:hover{
+      background: rgba(255,255,255,.08);
+      color: var(--text);
+    }
+
+    .nav-cta{
+      display:flex; gap:10px; align-items:center;
+    }
+    .btn{
+      border:1px solid rgba(255,255,255,.18);
+      background: rgba(255,255,255,.08);
+      color: var(--text);
+      padding:10px 14px;
+      border-radius: 999px;
+      font-weight:850;
+      cursor:pointer;
+      transition:.18s ease;
+      user-select:none;
+      box-shadow: 0 10px 24px rgba(0,0,0,.18);
+    }
+    .btn:hover{ transform: translateY(-1px); background: rgba(255,255,255,.12); }
+    .btn.primary{
+      border:none;
+      background: linear-gradient(90deg, #ff4d9d, #ffb703, #4cc9f0);
+      color: #081022;
+      box-shadow: 0 18px 40px rgba(255, 183, 3, .16);
+    }
+
+    /* MOBILE NAV */
+    .hamburger{
+      display:none;
+      width:44px; height:44px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.06);
+      cursor:pointer;
+      align-items:center; justify-content:center;
+    }
+    .hamburger span{
+      width:20px; height:2px; background: rgba(234,240,255,.88);
+      position:relative; display:block;
+    }
+    .hamburger span::before, .hamburger span::after{
+      content:""; position:absolute; left:0; width:20px; height:2px;
+      background: rgba(234,240,255,.88);
+      transition:.18s ease;
+    }
+    .hamburger span::before{ top:-6px; }
+    .hamburger span::after{ top:6px; }
+
+    .mobile-panel{
+      display:none;
+      padding: 0 0 14px;
+    }
+    .mobile-panel a{
+      display:block;
+      padding:12px 10px;
+      border-radius: 14px;
+      color: var(--muted);
+      font-weight:800;
+    }
+    .mobile-panel a:hover{
+      background: rgba(255,255,255,.08);
+      color: var(--text);
+    }
+
+    /* HERO */
+    .hero{ position:relative; padding: 44px 0 22px; }
+    .hero-grid{
+      display:grid;
+      grid-template-columns: 1.15fr .85fr;
+      gap: 26px;
+      align-items: stretch;
+    }
+    .hero-card{
+      border-radius: var(--radius2);
+      overflow:hidden;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.10) 0%, rgba(255,255,255,.06) 60%, rgba(255,255,255,.05) 100%);
+      border: 1px solid rgba(255,255,255,.14);
+      box-shadow: var(--shadow);
+      position:relative;
+      min-height: 420px;
+    }
+    .hero-media{
+      position:absolute; inset:0;
+      background:
+        linear-gradient(90deg, rgba(5,8,20,.90) 0%, rgba(5,8,20,.62) 42%, rgba(5,8,20,.22) 100%),
+        url("https://commons.wikimedia.org/wiki/Special:FilePath/Taj%20Mahal%2C%20Agra%2C%20India%20edit3.jpg?width=2200")
+        center/cover no-repeat;
+      transform: scale(1.02);
+    }
+    .hero-content{
+      position:relative;
+      padding: 30px;
+      display:flex;
+      flex-direction:column;
+      gap: 16px;
+      height:100%;
+      justify-content: space-between;
+    }
+    .kicker{
+      display:inline-flex;
+      gap:10px;
+      align-items:center;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border:1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.08);
+      width: fit-content;
+      color: rgba(234,240,255,.88);
+      font-weight:850;
+      letter-spacing:.2px;
+    }
+    .dot{
+      width:10px;height:10px;border-radius:99px;
+      background: conic-gradient(from 90deg, #ff4d9d, #ffb703, #4cc9f0, #8b5cf6, #ff4d9d);
+      box-shadow: 0 8px 18px rgba(255,77,157,.22);
+    }
+    h1{
+      margin: 0;
+      font-size: clamp(28px, 3.6vw, 44px);
+      line-height: 1.05;
+      letter-spacing: -.5px;
+    }
+    .lead{
+      margin: 0;
+      color: var(--muted);
+      font-size: clamp(14px, 1.35vw, 16.5px);
+      line-height: 1.6;
+      max-width: 56ch;
+    }
+    .hero-actions{ display:flex; gap:12px; flex-wrap:wrap; padding-top: 6px; }
+
+    .hero-mini{
+      display:grid;
+      grid-template-rows: auto 1fr;
+      gap: 14px;
+    }
+    .mini-card{
+      border-radius: var(--radius2);
+      overflow:hidden;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      box-shadow: var(--shadow);
+      padding: 16px;
+    }
+    .mini-title{
+      font-weight: 900;
+      font-size: 16px;
+      margin: 0 0 6px;
+    }
+    .mini-desc{
+      margin: 0;
+      color: var(--muted);
+      font-size: 13.5px;
+      line-height: 1.55;
+    }
+    .mini-strip{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 12px;
+    }
+    .thumb{
+      border-radius: 16px;
+      overflow:hidden;
+      border: 1px solid rgba(255,255,255,.14);
+      aspect-ratio: 1 / 1;
+      background-size: cover;
+      background-position: center;
+      filter: saturate(1.05) contrast(1.02);
+    }
+
+    /* SECTIONS */
+    section{ padding: 22px 0; }
+    .section-head{
+      display:flex;
+      align-items:flex-end;
+      justify-content:space-between;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+    .section-head h2{
+      margin:0;
+      font-size: 22px;
+      letter-spacing: -.2px;
+    }
+    .section-head p{
+      margin:0;
+      color: var(--muted);
+      max-width: 66ch;
+      line-height: 1.6;
+      font-size: 14px;
+    }
+
+    .grid{ display:grid; gap: 14px; }
+    .grid.cols-3{ grid-template-columns: repeat(3, 1fr); }
+    .grid.cols-4{ grid-template-columns: repeat(4, 1fr); }
+
+    .card{
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.14);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 16px;
+      overflow:hidden;
+      position:relative;
+    }
+    .card strong{
+      display:block;
+      font-size: 15px;
+      letter-spacing: -.1px;
+      margin-bottom: 6px;
+    }
+    .card p{
+      margin:0;
+      color: var(--muted);
+      font-size: 13.5px;
+      line-height: 1.55;
+    }
+    .chip{
+      display:inline-flex;
+      gap:8px; align-items:center;
+      padding: 7px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      color: rgba(234,240,255,.86);
+      font-weight:850;
+      font-size: 12.5px;
+      margin: 0 8px 8px 0;
+    }
+    .chip i{
+      width:9px;height:9px;border-radius:99px;
+      background: linear-gradient(90deg, #ff4d9d, #ffb703, #4cc9f0);
+      display:inline-block;
+    }
+
+    /* IMAGE STRIP CARDS */
+    .img-card{
+      border-radius: var(--radius);
+      overflow:hidden;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.05);
+      box-shadow: var(--shadow);
+    }
+    .img-card img{
+      width:100%;
+      height: 180px;
+      object-fit: cover;
+      filter: saturate(1.08) contrast(1.03);
+    }
+    .img-card .body{
+      padding: 14px 16px 16px;
+    }
+    .tag{
+      display:inline-block;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      color: rgba(234,240,255,.82);
+      font-weight:850;
+      font-size: 12px;
+      margin-bottom: 8px;
+    }
+
+    /* GALLERY */
+    .gallery{
+      display:grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 12px;
+    }
+    .g-item{
+      grid-column: span 4;
+      border-radius: 22px;
+      overflow:hidden;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.05);
+      box-shadow: var(--shadow);
+      cursor:pointer;
+      position:relative;
+      min-height: 220px;
+    }
+    .g-item img{
+      width:100%;
+      height:100%;
+      object-fit: cover;
+      transform: scale(1.01);
+      transition: transform .25s ease;
+      filter: saturate(1.10) contrast(1.04);
+    }
+    .g-item:hover img{ transform: scale(1.07); }
+    .g-label{
+      position:absolute;
+      left: 12px;
+      right: 12px;
+      bottom: 12px;
+      padding: 10px 12px;
+      border-radius: 16px;
+      background: rgba(5,8,20,.62);
+      border: 1px solid rgba(255,255,255,.14);
+      backdrop-filter: blur(10px);
+    }
+    .g-label strong{
+      display:block;
+      font-size: 14px;
+      margin: 0 0 2px;
+    }
+    .g-label span{
+      color: rgba(234,240,255,.74);
+      font-size: 12.5px;
+    }
+
+    /* MODAL */
+    .modal{
+      position:fixed; inset:0;
+      display:none;
+      z-index: 100;
+      background: rgba(0,0,0,.62);
+      backdrop-filter: blur(10px);
+      padding: 18px;
+    }
+    .modal.open{ display:flex; align-items:center; justify-content:center; }
+    .modal-card{
+      width: min(980px, 100%);
+      border-radius: 26px;
+      overflow:hidden;
+      border: 1px solid rgba(255,255,255,.16);
+      background: rgba(10,14,30,.72);
+      box-shadow: 0 30px 80px rgba(0,0,0,.55);
+      position:relative;
+    }
+    .modal-img{
+      width:100%;
+      max-height: 72vh;
+      object-fit: cover;
+      background: rgba(255,255,255,.06);
+    }
+    .modal-bar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 12px;
+      padding: 12px 14px;
+      border-top: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+    }
+    .modal-title{
+      display:flex; flex-direction:column;
+      gap: 2px;
+      min-width: 0;
+    }
+    .modal-title strong{
+      font-size: 14px;
+      white-space: nowrap;
+      overflow:hidden;
+      text-overflow: ellipsis;
+    }
+    .modal-title span{
+      font-size: 12.5px;
+      color: rgba(234,240,255,.74);
+      white-space: nowrap;
+      overflow:hidden;
+      text-overflow: ellipsis;
+    }
+    .icon-btn{
+      width:44px; height:44px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.06);
+      cursor:pointer;
+      display:flex; align-items:center; justify-content:center;
+      transition: .18s ease;
+    }
+    .icon-btn:hover{ transform: translateY(-1px); background: rgba(255,255,255,.10); }
+    .x{ width:18px;height:18px; position:relative; }
+    .x::before,.x::after{
+      content:""; position:absolute; left:8px; top:0;
+      width:2px; height:18px; background: rgba(234,240,255,.9);
+      border-radius: 8px;
+    }
+    .x::before{ transform: rotate(45deg); }
+    .x::after{ transform: rotate(-45deg); }
+
+    /* FOOTER */
+    footer{
+      padding: 26px 0 32px;
+      border-top: 1px solid rgba(255,255,255,.10);
+      background: rgba(5,8,20,.35);
+      margin-top: 8px;
+    }
+    .footer-grid{
+      display:grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 16px;
+      align-items: start;
+    }
+    .footer-note{
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.6;
+      margin: 8px 0 0;
+    }
+    .footer-links{
+      display:flex;
+      flex-wrap: wrap;
+      gap:10px;
+      justify-content:flex-end;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 980px){
+      .hero-grid{ grid-template-columns: 1fr; }
+      .hero-card{ min-height: 420px; }
+      .grid.cols-3{ grid-template-columns: repeat(2, 1fr); }
+      .grid.cols-4{ grid-template-columns: repeat(2, 1fr); }
+      .g-item{ grid-column: span 6; min-height: 220px; }
+      .footer-grid{ grid-template-columns: 1fr; }
+      .footer-links{ justify-content:flex-start; }
+    }
+    @media (max-width: 720px){
+      .nav-links, .nav-cta .btn.primary{ display:none; }
+      .hamburger{ display:flex; }
+      .mobile-panel{ display:none; }
+      .mobile-panel.open{ display:block; }
+      .grid.cols-3{ grid-template-columns: 1fr; }
+      .grid.cols-4{ grid-template-columns: 1fr; }
+      .g-item{ grid-column: span 12; min-height: 240px; }
+    }
+  </style>
 </head>
 
 <body>
-    <table cellspacing="20">
-        <tr>
-            <td><img class="myimg" src="my.jpg" width="150px" height="150px" alt="Can not load"></td>
+  <!-- NAV -->
+  <div class="nav">
+    <div class="container">
+      <div class="nav-inner">
+        <a class="brand" href="#top">
+          <span class="brand-badge" aria-hidden="true"></span>
+          <span>Indian Culture & Traditions</span>
+        </a>
 
+        <div class="nav-links" role="navigation" aria-label="Primary">
+          <a href="#about">About</a>
+          <a href="#traditions">Traditions</a>
+          <a href="#highlights">Highlights</a>
+          <a href="#gallery">Gallery</a>
+        </div>
 
-            <td>
-                <h1 id="heading">Bishal Sharma</h1>
-                <p><strong>I'm a Electrical Engineer.</strong></p>
-                <p>Starting to learing <a href="https://www.w3schools.com/whatis/">WEB DEVELOPEMENT</a></p>
-            </td>
-        </tr>
-    </table>
-    <hr>
-    <h3>Hobbies:</h3>
-    <ul>
-        <li>Coding</li>
-        <li>Hacking</li>
-        <li>Gaming</li>
-    </ul>
-    <hr class="big">
-    <h3>Study Experience:</h3>
-    <table border="2px">
-        <tr>
-            <th>Date</th>
-            <th>School Name</th>
-        </tr>
-        <tr>
-            <td>2014-2015</td>
-            <td>Clearing HSLC</td>
-        </tr>
-        <tr>
-            <td>2016-2017</td>
-            <td>Clearing HS</td>
-        </tr>
-        <tr>
-            <td>2018-2020</td>
-            <td>Clearing Diploma</td>
-        </tr>
-    </table>
-    <hr>
-    <h3>Skills:</h3>
-    <table>
-        <tr>
-            <td>
-                <table>
-                    <tr>
-                        <td>Python:</td>
-                        <td>⭐⭐⭐⭐</td>
-                    </tr>
-                    <tr>
-                        <td>HTML:</td>
-                        <td>⭐⭐⭐⭐⭐</td>
-                    </tr>
-                    <tr>
-                        <td>CSS:</td>
-                        <td>⭐⭐⭐</td>
-                    </tr>
-                </table>
-            </td>
-            <td>
-                <table>
-                    <tr>
-                        <td>JAVA:</td>
-                        <td>⭐</td>
-                    </tr>
-                    <tr>
-                        <td>JAVASCRIPT:</td>
-                        <td>⭐</td>
-                    </tr>
-                    <tr>
-                        <td>WIFI HACKING:</td>
-                        <td>⭐⭐⭐⭐</td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
-    </table>
-    <hr class="line">
-    <h3><a href="contact.html">My Contact Info:</a></h3>
-    <img class="becon" src="bacon_1f953.png" alt="becon">
+        <div class="nav-cta">
+          <a class="btn" href="#gallery">View Gallery</a>
+          <a class="btn primary" href="#highlights">Explore</a>
+          <button class="hamburger" id="hamburger" aria-label="Open menu"><span></span></button>
+        </div>
+      </div>
 
-    
+      <div class="mobile-panel" id="mobilePanel" aria-label="Mobile navigation">
+        <a href="#about">About</a>
+        <a href="#traditions">Traditions</a>
+        <a href="#highlights">Highlights</a>
+        <a href="#gallery">Gallery</a>
+      </div>
+    </div>
+  </div>
 
+  <!-- HERO -->
+  <header class="hero" id="top">
+    <div class="container">
+      <div class="hero-grid">
+        <div class="hero-card">
+          <div class="hero-media" aria-hidden="true"></div>
+          <div class="hero-content">
+            <div>
+              <div class="kicker"><span class="dot" aria-hidden="true"></span> One Nation • Many Cultures</div>
+              <h1>Discover India’s Living Heritage</h1>
+              <p class="lead">
+                India is a mosaic of languages, arts, rituals, architecture, and food. From classical dances and temple traditions
+                to colorful festivals and regional cuisines—this page gives a quick, beautiful tour across all of India.
+              </p>
 
+              <div class="hero-actions">
+                <a class="btn primary" href="#gallery">Open Gallery</a>
+                <a class="btn" href="#traditions">Explore Traditions</a>
+                <a class="btn" href="#about">Quick Overview</a>
+              </div>
+            </div>
 
+            <div style="display:flex; gap:10px; flex-wrap:wrap;">
+              <span class="chip"><i></i> Heritage</span>
+              <span class="chip"><i></i> Festivals</span>
+              <span class="chip"><i></i> Arts</span>
+              <span class="chip"><i></i> Food</span>
+              <span class="chip"><i></i> Diversity</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-mini">
+          <div class="mini-card">
+            <p class="mini-title">Across All India</p>
+            <p class="mini-desc">
+              North, South, East, West, and Northeast—every region contributes unique traditions. This page highlights iconic
+              examples and a gallery you can present confidently.
+            </p>
+
+            <div class="mini-strip" aria-label="Preview images">
+              <div class="thumb" style='background-image:url("https://commons.wikimedia.org/wiki/Special:FilePath/Holi_Festival_of_Colors.jpg?width=700")'></div>
+              <div class="thumb" style='background-image:url("https://commons.wikimedia.org/wiki/Special:FilePath/Kerala_backwater_20080218-11.jpg?width=700")'></div>
+              <div class="thumb" style='background-image:url("https://commons.wikimedia.org/wiki/Special:FilePath/Bharatanatyam_dancer.jpg?width=700")'></div>
+            </div>
+          </div>
+
+          <div class="mini-card" style="padding:0; overflow:hidden;">
+            <div style="
+              height: 100%;
+              min-height: 230px;
+              background:
+                linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.06)),
+                url('https://commons.wikimedia.org/wiki/Special:FilePath/Madurai_Meenakshi_temple_gopuram.jpg?width=1600') center/cover no-repeat;
+              position:relative;
+            ">
+              <div style="
+                position:absolute; inset:auto 14px 14px 14px;
+                padding: 12px 12px;
+                border-radius: 18px;
+                background: rgba(5,8,20,.62);
+                border: 1px solid rgba(255,255,255,.14);
+                backdrop-filter: blur(10px);
+              ">
+                <strong style="display:block; font-size:14px; margin:0 0 2px;">Architecture & Faith</strong>
+                <span style="color:rgba(234,240,255,.74); font-size:12.5px;">
+                  Temples, mosques, gurudwaras, churches—India’s spiritual landscape shapes everyday culture.
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </header>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <h2>What Makes Indian Culture Unique?</h2>
+          <p>
+            It’s not “one culture.” India is a collection of thousands of local traditions—yet connected by shared values:
+            community, respect, hospitality, and celebration.
+          </p>
+        </div>
+      </div>
+
+      <div class="grid cols-3">
+        <div class="card">
+          <strong>Languages & Stories</strong>
+          <p>Different languages, dialects, and oral traditions keep history and identity alive.</p>
+        </div>
+        <div class="card">
+          <strong>Music & Dance</strong>
+          <p>Classical forms meet folk styles—every region has its own rhythms, instruments, and costumes.</p>
+        </div>
+        <div class="card">
+          <strong>Food & Hospitality</strong>
+          <p>Ingredients change with geography; recipes evolve with families. Food is culture you can taste.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRADITIONS -->
+  <section id="traditions">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <h2>Traditions Across Regions</h2>
+          <p>
+            Don’t just list traditions—explain what they mean (family bonds, seasons, work, beliefs). That’s what makes a project solid.
+          </p>
+        </div>
+      </div>
+
+      <div class="grid cols-4">
+        <div class="card">
+          <strong>Namaste & Respect</strong>
+          <p>A greeting that reflects humility and respect—different versions across states, same intention.</p>
+        </div>
+        <div class="card">
+          <strong>Textiles & Clothing</strong>
+          <p>Saree, kurta, dhoti, mekhela chador—styles vary by climate, craft traditions, and history.</p>
+        </div>
+        <div class="card">
+          <strong>Rituals & Ceremonies</strong>
+          <p>Weddings and festivals carry symbols, music, and community participation across generations.</p>
+        </div>
+        <div class="card">
+          <strong>Arts & Crafts</strong>
+          <p>Paintings, handloom weaving, pottery, metalwork—craft is identity + economy + heritage.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HIGHLIGHTS (with images) -->
+  <section id="highlights">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <h2>Culture Highlights</h2>
+          <p>These are visual proof points: architecture, dance, festivals, and food. Perfect for a one-page presentation.</p>
+        </div>
+      </div>
+
+      <div class="grid cols-3">
+        <div class="img-card">
+          <img loading="lazy" alt="Hawa Mahal Jaipur" src="https://commons.wikimedia.org/wiki/Special:FilePath/Hawa_Mahal_Jaipur.jpg?width=1400" />
+          <div class="body">
+            <div class="tag">Architecture</div>
+            <strong>Hawa Mahal</strong>
+            <p>Iconic “Palace of Winds” in Jaipur—shows Rajasthan’s royal architecture.</p>
+          </div>
+        </div>
+
+        <div class="img-card">
+          <img loading="lazy" alt="Bharatanatyam dancer" src="https://commons.wikimedia.org/wiki/Special:FilePath/Bharatanatyam_dancer.jpg?width=1400" />
+          <div class="body">
+            <div class="tag">Classical Dance</div>
+            <strong>Bharatanatyam</strong>
+            <p>One of India’s classical dance forms—storytelling through rhythm and expression.</p>
+          </div>
+        </div>
+
+        <div class="img-card">
+          <img loading="lazy" alt="Masala dosa" src="https://commons.wikimedia.org/wiki/Special:FilePath/Masala_Dosa.jpg?width=1400" />
+          <div class="body">
+            <div class="tag">Cuisine</div>
+            <strong>Masala Dosa</strong>
+            <p>South Indian staple—shows fermentation, spice balance, and regional food identity.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALLERY -->
+  <section id="gallery">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <h2>Gallery: Colorful India (All Regions)</h2>
+          <p>
+            Click any image to view it bigger. Use arrow keys (←/→) to navigate, Esc to close.
+          </p>
+        </div>
+        <div style="display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end;">
+          <span class="chip"><i></i> North</span>
+          <span class="chip"><i></i> South</span>
+          <span class="chip"><i></i> East</span>
+          <span class="chip"><i></i> West</span>
+          <span class="chip"><i></i> Northeast</span>
+        </div>
+      </div>
+
+      <div class="gallery" id="galleryGrid" aria-label="India culture gallery"></div>
+    </div>
+  </section>
+
+  <!-- MODAL -->
+  <div class="modal" id="modal" role="dialog" aria-modal="true" aria-label="Image preview">
+    <div class="modal-card">
+      <img id="modalImg" class="modal-img" alt="" />
+      <div class="modal-bar">
+        <div class="modal-title">
+          <strong id="modalTitle">Title</strong>
+          <span id="modalSubtitle">Subtitle</span>
+        </div>
+        <button class="icon-btn" id="modalClose" aria-label="Close"><span class="x" aria-hidden="true"></span></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="brand" style="gap:10px;">
+            <span class="brand-badge" aria-hidden="true"></span>
+            <span>Indian Culture & Traditions</span>
+          </div>
+          <p class="footer-note">
+            One-page student project site. Images are served via Wikimedia Commons “Special:FilePath” links (reliable direct image URLs).
+          </p>
+        </div>
+        <div class="footer-links">
+          <a class="btn" href="#top">Back to Top</a>
+          <a class="btn" href="#about">About</a>
+          <a class="btn" href="#gallery">Gallery</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Mobile nav toggle
+    const hamburger = document.getElementById("hamburger");
+    const mobilePanel = document.getElementById("mobilePanel");
+    hamburger.addEventListener("click", () => {
+      mobilePanel.classList.toggle("open");
+    });
+    mobilePanel.querySelectorAll("a").forEach(a => {
+      a.addEventListener("click", () => mobilePanel.classList.remove("open"));
+    });
+
+    // Gallery data (Wikimedia Commons -> Special:FilePath -> stable direct image)
+    const galleryItems = [
+      {
+        title: "Taj Mahal",
+        subtitle: "Agra, Uttar Pradesh (North India) • Heritage",
+        src: "https://commons.wikimedia.org/wiki/Special:FilePath/Taj%20Mahal%2C%20Agra%2C%20India%20edit3.jpg?width=2200"
+      },
+      {
+        title: "Holi Festival of Colors",
+        subtitle: "Across India • Festival",
+        src: "https://commons.wikimedia.org/wiki/Special:FilePath/Holi_Festival_of_Colors.jpg?width=2200"
+      },
+      {
+        title: "India Gate",
+        subtitle: "New Delhi (North India) • Monument",
+        src: "https://commons.wikimedia.org/wiki/Special:FilePath/India_Gate_New_Delhi.jpg?width=2200"
+      },
+      {
+        title: "Golden Temple (Harmandir Sahib)",
+        subtitle: "Amritsar, Punjab (North India) • Spiritual Heritage",
+        src: "https://commons.wikimedia.org/wiki/Special:FilePath/Amritsar_Golden_Temple.jpg?width=2200"
+      },
+      {
+        title: "Hawa Mahal",
+        subtitle: "Jaipur, Rajasthan (West India) • Architecture",
+        src: "https://commons.wikimedia.org/wiki/Special:FilePath/Hawa_Mahal_Jaipur.jpg?width=2200"
+      },
+      {
+        title: "Meenakshi Temple Gopuram",
+        subtitle: "Madurai, Tamil Nadu (South India) • Temple Architecture",
+        src: "https://commons.wikimedia.org/wiki/Special:FilePath/Madurai_Meenakshi_temple_gopuram.jpg?width=2200"
+      },
+      {
+        title: "Kathakali Dancer",
+        subtitle: "Kerala (South India) • Traditional Theatre",
+        src: "https://commons.wikimedia.org/wiki/Special:FilePath/Kathakali_dancer.jpg?width=2200"
+      },
+      {
+        title: "Bharatanatyam Dancer",
+        subtitle: "Tamil Nadu (South India) • Classical Dance",
+        src: "https://commons.wikimedia.org/wiki/Special:FilePath/Bharatanatyam_dancer.jpg?width=2200"
+      },
+      {
+        title: "Kerala Backwaters",
+        subtitle: "Kerala (South India) • Nature & Lifestyle",
+        src: "https://commons.wikimedia.org/wiki/Special:FilePath/Kerala_backwater_20080218-11.jpg?width=2200"
+      },
+      {
+        title: "Howrah Bridge",
+        subtitle: "Kolkata, West Bengal (East India) • Landmark",
+        src: "https://commons.wikimedia.org/wiki/Special:FilePath/The_Howrah_Bridge%2C_Kolkata.jpg?width=2200"
+      },
+      {
+        title: "Masala Dosa",
+        subtitle: "South India • Food",
+        src: "https://commons.wikimedia.org/wiki/Special:FilePath/Masala_Dosa.jpg?width=2200"
+      },
+      {
+        title: "Mountains in Ladakh",
+        subtitle: "Ladakh (North India) • Himalayas & Landscape",
+        src: "https://commons.wikimedia.org/wiki/Special:FilePath/Mountains_in_Ladakh.jpg?width=2200"
+      }
+    ];
+
+    // Build gallery
+    const galleryGrid = document.getElementById("galleryGrid");
+    galleryItems.forEach((item, idx) => {
+      const div = document.createElement("div");
+      div.className = "g-item";
+      div.setAttribute("tabindex", "0");
+      div.setAttribute("role", "button");
+      div.setAttribute("aria-label", `Open image: ${item.title}`);
+
+      div.innerHTML = `
+        <img loading="lazy" src="${item.src}" alt="${item.title}">
+        <div class="g-label">
+          <strong>${item.title}</strong>
+          <span>${item.subtitle}</span>
+        </div>
+      `;
+
+      div.addEventListener("click", () => openModal(idx));
+      div.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") openModal(idx);
+      });
+
+      galleryGrid.appendChild(div);
+    });
+
+    // Modal logic
+    const modal = document.getElementById("modal");
+    const modalImg = document.getElementById("modalImg");
+    const modalTitle = document.getElementById("modalTitle");
+    const modalSubtitle = document.getElementById("modalSubtitle");
+    const modalClose = document.getElementById("modalClose");
+
+    let currentIndex = 0;
+
+    function openModal(index){
+      currentIndex = index;
+      const item = galleryItems[index];
+      modalImg.src = item.src;
+      modalImg.alt = item.title;
+      modalTitle.textContent = item.title;
+      modalSubtitle.textContent = item.subtitle;
+      modal.classList.add("open");
+      document.body.style.overflow = "hidden";
+    }
+
+    function closeModal(){
+      modal.classList.remove("open");
+      document.body.style.overflow = "";
+      setTimeout(() => { modalImg.src = ""; }, 120);
+    }
+
+    modalClose.addEventListener("click", closeModal);
+    modal.addEventListener("click", (e) => {
+      if (e.target === modal) closeModal();
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (!modal.classList.contains("open")) return;
+      if (e.key === "Escape") closeModal();
+      if (e.key === "ArrowRight") openModal((currentIndex + 1) % galleryItems.length);
+      if (e.key === "ArrowLeft") openModal((currentIndex - 1 + galleryItems.length) % galleryItems.length);
+    });
+  </script>
 </body>
-
 </html>
